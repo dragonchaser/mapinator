@@ -1,0 +1,19 @@
+{
+    "name": "mapinator",
+    "version": "0.0.0",
+    "description": "mapinator",
+    "main": "app.js",
+    "scripts": {
+        "start": "electron ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "."
+    },
+    "author": "Christian Richter",
+    "license": "GPLv3",
+    "devDependencies": {
+        "electron": "^2.0.18"
+    },
+    "dependencies": {}
+}

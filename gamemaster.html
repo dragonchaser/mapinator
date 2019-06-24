@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mapinator - GameMaster</title>
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="assets/vendor/photon/css/photon.min.css">
+    <script src="assets/js/common.js" charset="utf-utf-8"></script>
+    <script src="assets/js/gamemaster.js" charset="utf-8"></script>
+</head>
+
+<body>
+
+  <div class="window">
+    <header class="toolbar toolbar-header padded-less">
+      <div class="btn-group">
+        <button id="loadFileBtn" class="btn btn-large btn-default"><span class="icon icon-map"></span></button>
+        <button id="loadSessionBtn" class="btn btn-large btn-default"><span class="icon icon-folder"></span></button>
+      </div>
+    </header>
+    <div class="window-content">
+      <div class="pane-group">
+        <div></div>
+        <div class="pane-one-fourth sidebar" id="sideBarHideable">
+          <ul class="list-group" id="loadedMapsList">
+          </ul>
+        </div>
+        <div class="pane" id="gameMasterContentDiv">
+          <div id="gameMasterContentImgTint"></div>
+          <img id="gameMasterContentImg" />
+        </div>
+      </div>
+    </div>
+    <footer class="toolbar toolbar-footer">
+    <div class="toolbar-actions">
+      <div class="btn-group pull-right">
+        <button class="btn btn-large btn-default" id="scaleDecreaseBtn">
+            <span class="icon icon-minus-circled"></span>
+        </button>
+        <button class="btn btn-large btn-default" id="scaleResetBtn">
+            1:1
+        </button>
+        <button class="btn btn-large btn-default" id="scaleIncreaseBtn">
+          <span class="icon icon-plus-circled"></span>
+        </button>
+      </div>
+      <div id="gameMasterContentImgSizeLbl" class="pull-right padded-top-less padded-horizontally-more"></div>
+    </div>
+  </footer>
+  </div>
+</body>
+</html>
