@@ -20,10 +20,21 @@ function noMapLoadedAlert() {
   alert('Please load a map first', 'No map loaded');
 }
 
+function removeClassFromChildren(item, className) {
+  for(i = 0; i < item.children.length; i++) {
+    item.children[i].classList.remove(className);
+  }
+}
+
 function updateList(resultItem) {
+  removeClassFromChildren(loadedMapsList, 'active');
+
+  var itemArrayPosition = loadedMaps.length;
+
   var newItem = document.createElement('li');
-  newItem.className = 'list-group-item clickableListGroup1';
-  newItem.setAttribute('cursor', 'pointer');
+  newItem.className = 'list-group-item clickableListGroup active';
+  newItem.setAttribute('id', 'loadedMap'+itemArrayPosition);
+  newItem.setAttribute('onclick', 'changeMap(' + itemArrayPosition + ')');
 
   var itemImage = document.createElement('img');
   itemImage.src = resultItem['filePath'];
@@ -33,6 +44,7 @@ function updateList(resultItem) {
 
   var itemCloseBtn = document.createElement('div');
   itemCloseBtn.className = 'icon icon-cancel-circled pull-right'
+  itemCloseBtn.setAttribute('onclick', 'removeMapFromList(' + itemArrayPosition + ');')
 
   var itemDescDiv = document.createElement('div');
   itemDescDiv.className = 'media-body';
@@ -43,7 +55,54 @@ function updateList(resultItem) {
   newItem.appendChild(itemDescDiv);
 
   loadedMapsList.appendChild(newItem);
-  loadedMaps.push(resultItem);
+  loadedMaps[itemArrayPosition] = resultItem;
+  console.log(loadedMaps);
+}
+
+function initImage() {
+  originalImageWidth = gameMasterContentImg.clientWidth;
+  originalImageHeight = gameMasterContentImg.clientHeight;
+  currentScale = 100;
+  scaleImage();
+}
+
+function changeMap(itemArrayPosition) {
+  removeClassFromChildren(loadedMapsList, 'active');
+  var item = document.getElementById('loadedMap' + itemArrayPosition);
+  // FIXME: something is flacky here
+  loadedMapsList.children[itemArrayPosition].className = loadedMapsList.children[itemArrayPosition].className + ' active';
+  gameMasterContentDiv.removeChild(gameMasterContentImg);
+  gameMasterContentImg = document.createElement('img');
+  gameMasterContentDiv.appendChild(gameMasterContentImg);
+  gameMasterContentImg.src = loadedMaps[0]['filePath'];
+  ipcRenderer.send('OPEN_MAP', loadedMaps[0]['filePath']);
+  setTimeout(() => {
+    initImage();
+  }, 100);
+}
+
+function removeMapFromList(itemArrayPosition) {
+  var item = document.getElementById('loadedMap' + itemArrayPosition);
+  var resetActive = false;
+  if(item.className.includes('active')) {
+    resetActive = true;
+  }
+  if(loadedMapsList.children.length > 1 && resetActive == true) {
+    loadedMapsList.children[0].className = loadedMapsList.children[0].className + ' active';
+    gameMasterContentDiv.removeChild(gameMasterContentImg);
+    gameMasterContentImg = document.createElement('img');
+    gameMasterContentDiv.appendChild(gameMasterContentImg);
+    gameMasterContentImg.src = loadedMaps[0]['filePath'];
+    ipcRenderer.send('OPEN_MAP', loadedMaps[0]['filePath']);
+    setTimeout(() => {
+      initImage();
+    }, 100);
+  } else {
+    gameMasterContentDiv.removeChild(gameMasterContentImg);
+    gameMasterContentImg = document.createElement('img');
+    gameMasterContentDiv.appendChild(gameMasterContentImg);
+  }
+  item.remove();
 }
 
 function getEntities() {
@@ -91,12 +150,9 @@ function GameMasterInit() {
     resultItem['filePath'] = result;
     console.log(loadedMaps);
     setTimeout(() => {
-      originalImageWidth = gameMasterContentImg.clientWidth;
-      originalImageHeight = gameMasterContentImg.clientHeight;
-      currentScale = 100;
-      scaleImage();
+      initImage();
       updateList(resultItem);
-    }, 10);
+    }, 100);
   });
 
   scaleDecreaseBtn.addEventListener('click', (event) => {

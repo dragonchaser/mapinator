@@ -23,11 +23,6 @@ function createMainWindows() {
       app.quit();
     });
 
-    mainWindow.on('app-command', (e, cmd) => {
-      console.log(e);
-      console.log(cmd);
-    })
-
     mainWindow.once('ready-to-show', () => {
       mainWindow.show()
     });
@@ -64,7 +59,7 @@ function openFile() {
     title: 'Open Map',
     filters: [
           { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif'] },
-          { name: 'PDF', extensions: ['pdf'] }
+          //{ name: 'PDF', extensions: ['pdf'] }
     ]
   });
   if(result) {
@@ -95,6 +90,10 @@ ipcMain.on('OPEN_FILE_BTN_CLICK', (event) => {
 
 ipcMain.on('SCALE_PLAYER_IMAGE', (event, resolution) => {
   revealWindow.webContents.send('SCALE_PLAYER_IMAGE', resolution);
+});
+
+ipcMain.on('OPEN_MAP', (event, filePath) => {
+  revealWindow.webContents.send('OPEN_MAP', filePath);
 });
 
 (async () => {

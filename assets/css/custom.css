@@ -25,5 +25,21 @@ iframe {
 }
 
 .clickableListGroup {
-  cursor: pointer;
+  cursor: pointer !important;
+}
+
+.clickableListGroup > img{
+  cursor: pointer !important;
+}
+
+.clickableListGroup > div {
+  cursor: pointer !important;
+}
+
+.clickableListGroup > div > strong{
+  cursor: pointer !important;
+}
+
+.clickableListGroup > div > p {
+  cursor: pointer !important;
 }

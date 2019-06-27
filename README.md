@@ -42,7 +42,7 @@ So far there is now stable release of the Mapinator. If you want to try it nethe
 ## What is not working (and what is WIP at the moment):
 
 - scrolling map on players screen from gamemaster screen
-- switching between different loaded maps
+- switching between different loaded maps (partly working, buggy atm)
 - unloading maps
 
 ## Roadmap
