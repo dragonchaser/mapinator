@@ -1,5 +1,5 @@
 
-const { shell, ipcMain, electron, dialog, app, BrowserWindow } = require('electron');
+const { shell, ipcMain, electron, dialog, app, BrowserWindow, globalShortcut } = require('electron');
 
 let mainWindow
 let revealWindow
@@ -65,10 +65,7 @@ function openFile() {
   if(result) {
     mainWindow.webContents.send('OPEN_MAP', result);
     revealWindow.webContents.send('OPEN_MAP', result);
-  } else {
-    console.log("file open canceled")
   }
-
 }
 
 function prepareApp() {
@@ -82,19 +79,26 @@ function prepareApp() {
           createMainWindows()
       }
   });
+
+  ipcMain.on('OPEN_FILE_BTN_CLICK', (event) => {
+    openFile();
+  });
+
+  ipcMain.on('SCALE_PLAYER_IMAGE', (event, resolution) => {
+    revealWindow.webContents.send('SCALE_PLAYER_IMAGE', resolution);
+  });
+
+  ipcMain.on('OPEN_MAP', (event, filePath) => {
+    revealWindow.webContents.send('OPEN_MAP', filePath);
+  });
+
+  app.on('ready', () => {
+    globalShortcut.register('CommandOrControl+Shift+R', () => {
+      revealWindow.reload();
+      mainWindow.reload();
+    })
+  })
 }
-
-ipcMain.on('OPEN_FILE_BTN_CLICK', (event) => {
-  openFile();
-});
-
-ipcMain.on('SCALE_PLAYER_IMAGE', (event, resolution) => {
-  revealWindow.webContents.send('SCALE_PLAYER_IMAGE', resolution);
-});
-
-ipcMain.on('OPEN_MAP', (event, filePath) => {
-  revealWindow.webContents.send('OPEN_MAP', filePath);
-});
 
 (async () => {
   await prepareApp();
