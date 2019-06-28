@@ -46,6 +46,8 @@ So far there is now stable release of the Mapinator. If you want to try it nethe
 - unloading maps
 
 ## Roadmap
+- rotate maps
+- make zoom and scrollposition persistant during the session
 - fog of war (tinted on the gamemaster screen, opaque on the players screen)
 - storing and loading sessions.
 - (nice to have) ability to place markers (for entities, players, npc, etc.) on the map.

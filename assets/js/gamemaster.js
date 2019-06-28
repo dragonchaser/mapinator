@@ -33,7 +33,7 @@ function updateList(resultItem) {
 
   var newItem = document.createElement('li');
   newItem.className = 'list-group-item clickableListGroup active';
-  newItem.setAttribute('id', 'loadedMap'+itemArrayPosition);
+  newItem.setAttribute('id', 'loadedMap' + itemArrayPosition);
   newItem.setAttribute('onclick', 'changeMap(' + itemArrayPosition + ')');
 
   var itemImage = document.createElement('img');
@@ -56,7 +56,6 @@ function updateList(resultItem) {
 
   loadedMapsList.appendChild(newItem);
   loadedMaps[itemArrayPosition] = resultItem;
-  console.log(loadedMaps);
 }
 
 function initImage() {
@@ -69,13 +68,12 @@ function initImage() {
 function changeMap(itemArrayPosition) {
   removeClassFromChildren(loadedMapsList, 'active');
   var item = document.getElementById('loadedMap' + itemArrayPosition);
-  // FIXME: something is flacky here
-  loadedMapsList.children[itemArrayPosition].className = loadedMapsList.children[itemArrayPosition].className + ' active';
+  item.className = item.className + ' active';
   gameMasterContentDiv.removeChild(gameMasterContentImg);
   gameMasterContentImg = document.createElement('img');
   gameMasterContentDiv.appendChild(gameMasterContentImg);
-  gameMasterContentImg.src = loadedMaps[0]['filePath'];
-  ipcRenderer.send('OPEN_MAP', loadedMaps[0]['filePath']);
+  gameMasterContentImg.src = loadedMaps[itemArrayPosition]['filePath'];
+  ipcRenderer.send('OPEN_MAP', loadedMaps[itemArrayPosition]['filePath']);
   setTimeout(() => {
     initImage();
   }, 100);
@@ -136,8 +134,20 @@ function GameMasterInit() {
   });
 
   loadSessionBtn.addEventListener('click', (event) => {
-    alert('not implemented <yet>');
+    alert('not implemented <yet>', 'Open session');
   });
+
+  saveSessionBtn.addEventListener('click', (event) => {
+    alert('not implemented <yet>', 'Save session');
+  })
+
+  rotateLeftBtn.addEventListener('click', (event) => {
+    alert('not implemented <yet>', 'Rotate Left');
+  });
+
+  rotateRightBtn.addEventListener('click', (event) => {
+    alert('not implemented <yet>', 'Rotate Right');
+  })
 
   ipcRenderer.on('OPEN_MAP', (event, result) => {
     gameMasterContentDiv.removeChild(gameMasterContentImg);
@@ -148,7 +158,6 @@ function GameMasterInit() {
     var path = require('path');
     resultItem['baseName'] = path.basename(result[0]);
     resultItem['filePath'] = result;
-    console.log(loadedMaps);
     setTimeout(() => {
       initImage();
       updateList(resultItem);
