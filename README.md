@@ -1,3 +1,6 @@
+# NOTE: 
+This will not be developed any further, this was an hackweek attempt to get familar with electron, I took several wrong turns during this. I will remodel it at some point and reimplement it at some point (next hackweek maybe).
+
 # Mapinator
 
 Mapinator is (probably going to be) a handy tool for the gamemaster hosting pen and paper sessions (like D&D, Deadlands or Shadowrun).
